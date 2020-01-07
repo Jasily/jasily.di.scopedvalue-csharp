@@ -17,8 +17,8 @@ jobs:
       run: dotnet build --configuration Release
     - name: Test
       run: dotnet test
-    - name: Copy
-      run: mkdir ./artifacts && copy ./Jasily.DI.ScopedValue/bin/Release/*/Jasily.DI.ScopedValue.dll ./artifacts
+    - name: Make artifact
+      run: mkdir ./artifacts && cp ./Jasily.DI.ScopedValue/bin/Release/*/Jasily.DI.ScopedValue.dll ./artifacts
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
