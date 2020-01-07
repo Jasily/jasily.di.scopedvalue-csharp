@@ -15,8 +15,12 @@ jobs:
         dotnet-version: 3.1.100
     - name: Build with dotnet
       run: dotnet build --configuration Release
+    - name: Test
+      run: dotnet test
+    - name: Copy
+      run: mkdir ./artifacts && copy ./Jasily.DI.ScopedValue/bin/Release/*/Jasily.DI.ScopedValue.dll ./artifacts
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: dlls
-        path: ./Jasily.DI.ScopedValue/bin/Release/*/Jasily.DI.ScopedValue.dll
+        path: ./artifacts/Jasily.DI.ScopedValue.dll
