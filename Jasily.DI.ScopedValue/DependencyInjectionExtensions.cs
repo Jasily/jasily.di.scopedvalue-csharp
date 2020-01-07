@@ -54,14 +54,26 @@ namespace Jasily.DI.ScopedValue
         /// <typeparam name="T"></typeparam>
         /// <param name="serviceCollection"></param>
         /// <returns></returns>
-        public static IServiceCollection AddScopedValue<T>(this IServiceCollection serviceCollection) where T : class
+        public static IServiceCollection AddScopedValue<T>(this IServiceCollection serviceCollection) where T : class =>
+            AddScopedValue(serviceCollection, typeof(T));
+
+        /// <summary>
+        /// Try add a <see cref="IScopedValue{T}"/> service to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serviceCollection"></param>
+        /// <param name="serviceType"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddScopedValue(this IServiceCollection serviceCollection, Type serviceType)
         {
             if (serviceCollection is null)
                 throw new ArgumentNullException(nameof(serviceCollection));
+            if (serviceType is null)
+                throw new ArgumentNullException(nameof(serviceType));
 
             serviceCollection.TryAddScoped<ScopedValuesStore>();
             serviceCollection.TryAddScoped(typeof(IScopedValue<>), typeof(ScopedValueImpl<>));
-            serviceCollection.TryAddScoped(typeof(T), p => ScopedValueImpl.GetScopedValue(p, typeof(T)));
+            serviceCollection.TryAddScoped(serviceType, p => ScopedValueImpl.GetScopedValue(p, serviceType));
 
             return serviceCollection;
         }
