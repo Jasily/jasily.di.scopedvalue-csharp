@@ -35,6 +35,8 @@ namespace Jasily.DI.ScopedValue
         {
             if (serviceProvider is null)
                 throw new ArgumentNullException(nameof(serviceProvider));
+            if (values is null)
+                throw new ArgumentNullException(nameof(values));
 
             var scope = serviceProvider.CreateScope();
             var store = scope.ServiceProvider.GetRequiredService<ScopedValuesStore>();
